@@ -1,0 +1,96 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.2rem;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.app__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.app__brand h1 {
+  margin: 0;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+}
+
+.app__subtitle {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.app__lang {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.app__lang:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.app__main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  min-height: 0;
+}
+
+.app__right {
+  display: grid;
+  grid-template-rows: 1.4fr 1fr;
+  gap: 0.75rem;
+  min-height: 0;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.panel__title {
+  margin: 0;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.panel__body {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.panel__body--output {
+  padding: 0.85rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+}

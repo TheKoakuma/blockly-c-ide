@@ -18,7 +18,7 @@ Reduzir a barreira de entrada da linguagem C. Em vez de lutar contra ponto-e-ví
 
 ## Status
 
-🚧 **Fase 0 — Planejamento.** Ainda sem código de aplicação. A documentação abaixo guia as próximas etapas.
+🚧 **Fase 1 concluída** — scaffold + workspace Blockly funcionando. Próximo: blocos de C e geração de código (Fase 2). Ver [ROADMAP](docs/ROADMAP.md).
 
 ## Documentação
 
@@ -34,9 +34,14 @@ Reduzir a barreira de entrada da linguagem C. Em vez de lutar contra ponto-e-ví
 
 Vite + React + TypeScript, com Blockly. Execução do C no navegador via WebAssembly. Ver [DECISIONS.md](docs/DECISIONS.md).
 
-## Como começar (após o scaffold)
+## Como rodar
 
-> Ainda não há aplicação. Os comandos de `dev`/`build` serão preenchidos quando a Fase 1 (scaffold) for iniciada — ver [ROADMAP](docs/ROADMAP.md).
+```bash
+npm install      # instalar dependências
+npm run dev      # servidor de desenvolvimento (http://localhost:5173)
+npm run build    # typecheck + build de produção
+npm run preview  # servir o build localmente
+```
 
 ## Licença
 

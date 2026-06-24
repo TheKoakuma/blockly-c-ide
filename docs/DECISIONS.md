@@ -37,9 +37,9 @@ Enviar o código a um serviço que roda `gcc`/`clang` em sandbox (próprio ou vi
 ---
 
 ## D3 — Editor de código (painel C)
-**Status:** proposta
+**Status:** ✅ aceita (2026-06-24)
 
-**Proposta:** CodeMirror 6 (mais leve) ou Monaco (mais recursos). MVP só precisa de realce de sintaxe e somente-leitura → CodeMirror tende a bastar.
+**Decisão:** CodeMirror 6. O MVP só precisa de realce de sintaxe de C em modo somente-leitura — bundle pequeno e suficiente. Monaco ficou descartado por ser exagero para o caso de uso.
 
 ---
 
@@ -50,7 +50,20 @@ Enviar o código a um serviço que roda `gcc`/`clang` em sandbox (próprio ou vi
 
 ---
 
+## D5 — Gerenciador de pacotes
+**Status:** ✅ aceita (2026-06-24)
+
+**Decisão:** npm. Já vem com o Node, zero atrito de setup.
+
+---
+
+## D6 — Internacionalização
+**Status:** ✅ aceita (2026-06-24)
+
+**Decisão:** i18n desde o início com **react-i18next**, idiomas PT-BR e EN. Evita retrabalho de extrair strings depois. PT-BR é o idioma padrão.
+
+---
+
 ## Questões em aberto
-- Idioma da interface no MVP: só PT, ou PT/EN desde já?
 - Público-alvo (idade/nível) — afeta o tom das lições e a profundidade dos blocos.
 - Licença do projeto.

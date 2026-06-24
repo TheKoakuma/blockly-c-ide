@@ -7,12 +7,13 @@ Fases incrementais. Cada fase termina com algo **demonstrável**. Marque `[x]` a
 - [x] Documentação de navegação (este conjunto de docs)
 - [x] Fechar decisões críticas em [DECISIONS.md](DECISIONS.md): **stack** (Vite + React + TS) e **runtime** (WASM no navegador)
 
-## Fase 1 — Scaffold + Workspace Blockly
-- [ ] Scaffold com Vite + React + TypeScript e rodar `dev`
-- [ ] Integrar Blockly e renderizar um workspace vazio
-- [ ] Toolbox mínima com blocos nativos do Blockly (lógica, matemática, texto)
-- [ ] Persistência do workspace em `localStorage`
-- **Entrega:** dá pra arrastar blocos e o estado sobrevive ao reload.
+## Fase 1 — Scaffold + Workspace Blockly ✅
+- [x] Scaffold com Vite + React + TypeScript e rodar `dev`
+- [x] Integrar Blockly e renderizar um workspace vazio
+- [x] Toolbox mínima com blocos nativos do Blockly (lógica, laços, matemática, texto, variáveis)
+- [x] Persistência do workspace em `localStorage` (com debounce)
+- [x] Base de i18n (PT-BR/EN) e painel de código CodeMirror somente-leitura
+- **Entrega:** ✅ dá pra arrastar blocos e o estado sobrevive ao reload.
 
 ## Fase 2 — Blocos de C + geração de código
 - [ ] Definir blocos de C do MVP (ver [BLOCKS.md](BLOCKS.md)): `main`, variável, `printf`, `if/else`, `for`, `while`, operadores
