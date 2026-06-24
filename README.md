@@ -18,7 +18,9 @@ Reduzir a barreira de entrada da linguagem C. Em vez de lutar contra ponto-e-ví
 
 ## Status
 
-🚧 **Fase 2 concluída** — blocos de C + geração de código ao vivo funcionando (C gerado validado no gcc). Próximo: execução do código no navegador via WASM (Fase 3). Ver [ROADMAP](docs/ROADMAP.md).
+🚧 **Fase 3 concluída** — execução de C no navegador funcionando: o aluno monta blocos, gera C e **roda** (compilador clang real em WASM via `@wasmer/sdk`), com saída, stdin e código de saída. Próximo: trilha de aprendizado (Fase 4). Ver [ROADMAP](docs/ROADMAP.md).
+
+> ⚠️ A execução exige **isolamento cross-origin** (headers COOP/COEP, já configurados) e baixa o compilador clang (~100 MB) do registro Wasmer no primeiro uso. Ver [D8](docs/DECISIONS.md).
 
 ## Documentação
 

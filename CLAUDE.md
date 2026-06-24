@@ -6,12 +6,14 @@ Contexto para retomar o trabalho neste repositório em sessões futuras.
 **bloCkly** — IDE web para aprender linguagem **C** com blocos visuais (Blockly). O aluno monta blocos, o app gera C compilável ao vivo, mostra o código e o executa.
 
 ## Estado atual
-**Fase 2 concluída.** App Vite + React + TS: workspace Blockly com blocos de C customizados, gerador `blocos → C` ao vivo no painel CodeMirror, persistência em localStorage, i18n PT-BR/EN. C gerado validado em gcc 14 (`-Wall -Wextra`, sem avisos). Próximo: **Fase 3** — execução do C no navegador via WASM (implementar `CRunner`).
+**Fase 3 concluída.** App Vite + React + TS: blocos de C → gerador ao vivo (CodeMirror) → **execução no navegador** (clang real em WASM via `@wasmer/sdk`, atrás de `CRunner` em `src/runner/`). UI com botão Executar, console (stdout/stderr/exit), stdin. Isolamento cross-origin (COOP/COEP) no Vite e nginx. Verificado no navegador (compila e roda de verdade, inclusive scanf/stdin). Próximo: **Fase 4** — trilha de aprendizado (lições).
+
+Detalhe do runtime: o `@wasmer/sdk` é carregado via **import dinâmico do CDN** (`SDK_URL` em `src/runner/wasmerRunner.ts`, pinado em 0.10.0), não como dependência npm — evita atrito do bundler com o worker do SDK. Execução é preguiçosa (baixa o clang só no 1º Executar).
 
 Comandos: `npm run dev` | `npm run build` | `npm run preview`.
 Docker (requisito transversal — D7): `docker compose --profile dev up` (5173) | `docker compose --profile prod up --build` (8088). Manter o compose atualizado ao adicionar serviços.
 
-Estrutura: `src/blocks/` (cBlocks = definições dos blocos de C, toolbox), `src/generators/c.ts` (gerador Blockly→C), `src/components/` (BlocklyWorkspace, CodePanel), `src/state/` (persistence), `src/i18n/` (locales), `src/App.tsx`. Em DEV, `window.__ws`/`window.__Blockly` expõem o workspace para depuração (removido no build de produção).
+Estrutura: `src/blocks/` (cBlocks = definições dos blocos de C, toolbox), `src/generators/c.ts` (gerador Blockly→C), `src/runner/` (CRunner + wasmerRunner), `src/components/` (BlocklyWorkspace, CodePanel, OutputConsole), `src/state/` (persistence), `src/i18n/` (locales), `src/App.tsx`. Em DEV, `window.__ws`/`window.__Blockly` expõem o workspace para depuração (removido no build de produção).
 
 ## Onde olhar primeiro
 - [README.md](README.md) — visão geral e índice.

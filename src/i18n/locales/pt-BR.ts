@@ -13,10 +13,15 @@ export const ptBR = {
     clear: 'Limpar',
     language: 'Idioma',
   },
-  code: {
-    placeholder: '// O gerador de código C chega na Fase 2.\n// Por enquanto, monte blocos ao lado.',
-  },
-  output: {
-    empty: 'A execução de código chega na Fase 3.',
+  exec: {
+    idleHint: 'Clique em Executar para compilar e rodar o programa.',
+    loadingToolchain: 'Preparando o compilador C (pode demorar no primeiro uso)…',
+    compiling: 'Compilando…',
+    running: 'Executando…',
+    compileError: 'Erro de compilação',
+    exitCode: 'Código de saída: {{code}}',
+    noOutput: '(sem saída)',
+    stdinLabel: 'Entrada (stdin)',
+    stdinPlaceholder: 'Dados lidos pelo programa (scanf), uma linha por leitura…',
   },
 } as const;

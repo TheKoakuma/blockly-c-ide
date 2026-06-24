@@ -28,13 +28,15 @@ Fases incrementais. Cada fase termina com algo **demonstrável**. Marque `[x]` a
 - **Entrega:** ✅ montar blocos gera C compilável visível na tela.
   Validado em compilador real (gcc 14, `-Wall -Wextra`, sem avisos).
 
-## Fase 3 — Execução
-- [ ] Escolher toolchain/interpretador C em WASM (ver D2)
-- [ ] Implementar `CRunner` em WebAssembly
-- [ ] Botão **Executar** + console de saída (stdout/stderr)
-- [ ] Suporte a stdin
-- [ ] Tratamento de erros de compilação/execução na UI
-- **Entrega:** aluno monta, gera e **roda** um programa em C.
+## Fase 3 — Execução ✅
+- [x] Toolchain escolhido: `@wasmer/sdk` + `clang/clang` (compilador C real em WASM) — ver D8
+- [x] Implementar `CRunner` (`src/runner/`) com a impl. Wasmer
+- [x] Botão **Executar** + console de saída (stdout/stderr) com estados (baixando/compilando/executando)
+- [x] Suporte a stdin
+- [x] Tratamento de erros de compilação/execução na UI
+- [x] Headers de isolamento cross-origin (COOP/COEP) no Vite e no nginx
+- **Entrega:** ✅ aluno monta, gera e **roda** um programa em C.
+  Validado no navegador: compila e executa de verdade (saída + stdin/scanf + exit code).
 
 ## Fase 4 — Trilha de aprendizado
 - [ ] Modelo de lição (objetivo, blocos disponíveis, validação)

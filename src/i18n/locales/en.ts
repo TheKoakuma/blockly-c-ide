@@ -13,10 +13,15 @@ export const en = {
     clear: 'Clear',
     language: 'Language',
   },
-  code: {
-    placeholder: '// The C code generator arrives in Phase 2.\n// For now, snap blocks together on the left.',
-  },
-  output: {
-    empty: 'Code execution arrives in Phase 3.',
+  exec: {
+    idleHint: 'Click Run to compile and execute the program.',
+    loadingToolchain: 'Preparing the C compiler (may take a while on first use)…',
+    compiling: 'Compiling…',
+    running: 'Running…',
+    compileError: 'Compilation error',
+    exitCode: 'Exit code: {{code}}',
+    noOutput: '(no output)',
+    stdinLabel: 'Input (stdin)',
+    stdinPlaceholder: 'Data read by the program (scanf), one line per read…',
   },
 } as const;

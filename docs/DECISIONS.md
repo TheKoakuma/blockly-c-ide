@@ -20,7 +20,7 @@ Registro de decisões (estilo ADR leve). Status: **proposta** | **aceita** | **r
 
 **Decisão:** executar C no próprio navegador via WebAssembly, mantendo o projeto 100% client-side. A camada fica atrás da interface `CRunner` para permitir trocar a implementação sem reescrever a app.
 
-**A investigar na Fase 3:** qual toolchain/interpretador em WASM usar (ex.: Clang/Emscripten para compilação real, ou um interpretador leve como tcc-wasm/picoc). Avaliar tamanho de bundle vs. completude da linguagem.
+**Toolchain (definido na Fase 3):** **`@wasmer/sdk`** rodando **`clang/clang`** (compilador C real) em WebAssembly. Segue o padrão oficial: escreve o `.c` num `Directory`, compila para `.wasm` e executa o resultado. Detalhes em [D8](#d8--toolchain-de-execução-wasmer--clang).
 
 Opções consideradas:
 
@@ -86,6 +86,27 @@ docker compose --profile prod up --build   # produção     -> http://localhost:
 
 ---
 
+## D8 — Toolchain de execução (Wasmer + clang)
+**Status:** ✅ aceita (2026-06-24)
+
+**Decisão:** `@wasmer/sdk` + pacote `clang/clang` do registro Wasmer, compilando e executando no navegador.
+
+**Fluxo** (`src/runner/wasmerRunner.ts`, atrás de `CRunner`):
+1. `init()` do SDK (carregado sob demanda do CDN no primeiro Executar).
+2. `Wasmer.fromRegistry('clang/clang')` baixa o compilador (cacheado).
+3. Escreve o `.c` num `Directory`, roda o clang → `.wasm`.
+4. `Wasmer.fromFile(wasm)` executa; captura stdout/stderr/exit code e aceita stdin.
+
+**Implicações técnicas:**
+- **Isolamento cross-origin obrigatório** (SharedArrayBuffer): headers `Cross-Origin-Opener-Policy: same-origin` e `Cross-Origin-Embedder-Policy: credentialless`, configurados no dev server do Vite e no nginx (produção). Sem isso a execução falha.
+- **Online no primeiro uso:** o pacote clang (~100 MB descomprimido) é baixado do registro Wasmer e cacheado pelo navegador. Execução é preguiçosa (só ao clicar em Executar).
+- O SDK é carregado via import dinâmico do CDN para evitar atrito do bundler com o Web Worker/wasm do SDK.
+
+**Trade-off aceito:** download grande e dependência de rede no primeiro uso, em troca de um **compilador C real** (precisão total) sem backend próprio.
+
+---
+
 ## Questões em aberto
 - Público-alvo (idade/nível) — afeta o tom das lições e a profundidade dos blocos.
 - Licença do projeto.
+- Reduzir/cachear melhor o download do clang (avaliar empacotar offline no futuro).

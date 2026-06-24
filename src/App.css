@@ -88,9 +88,117 @@
   position: relative;
 }
 
-.panel__body--output {
-  padding: 0.85rem;
-  color: var(--muted);
-  font-size: 0.9rem;
+/* Barra de título do painel de saída, com o botão Executar. */
+.panel__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.panel__title--inbar {
+  border-bottom: none;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  margin-right: 0.6rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.btn--run {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.btn--run:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.panel__body--console {
+  overflow: auto;
+  padding: 0.75rem 0.85rem;
+}
+
+.console {
   font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+.console--hint,
+.console--status {
+  color: var(--muted);
+}
+
+.console__block {
+  margin: 0 0 0.4rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.console__block--error {
+  color: #b00020;
+}
+
+.console__label--error {
+  color: #b00020;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.console__exit {
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-top: 0.3rem;
+}
+
+.console__spinner {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: -1px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Campo de entrada (stdin) no rodapé do painel. */
+.stdin {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.5rem 0.85rem 0.7rem;
+  border-top: 1px solid var(--border);
+}
+
+.stdin__label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.stdin__input {
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem 0.5rem;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 0.82rem;
+  color: var(--text);
 }
