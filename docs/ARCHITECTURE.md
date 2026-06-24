@@ -64,9 +64,22 @@ src/
   runner/        # implementações de CRunner
   lessons/       # conteúdo da trilha de aprendizado
   state/         # persistência / estado global
+  i18n/          # configuração e traduções (PT-BR/EN)
   App.tsx
+docker/          # config do nginx para a imagem de produção
 docs/
+Dockerfile       # build de produção (multi-stage -> nginx)
+Dockerfile.dev   # dev server (Vite + HMR)
+docker-compose.yml
 ```
+
+## Empacotamento (Docker)
+
+O projeto é dockerizado (requisito transversal — ver [DECISIONS.md → D7](DECISIONS.md)):
+- **Produção:** build estático servido por nginx com fallback de SPA.
+- **Desenvolvimento:** dev server do Vite com HMR e bind mount do código.
+
+Quando a Fase 3 introduzir o runtime de execução de C, se ele exigir um serviço separado, esse serviço entra no `docker-compose.yml`.
 
 ## Princípios
 

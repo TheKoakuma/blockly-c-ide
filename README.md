@@ -27,7 +27,7 @@ Reduzir a barreira de entrada da linguagem C. Em vez de lutar contra ponto-e-ví
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Como o sistema é estruturado (camadas, fluxo de dados, módulos). |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Fases de desenvolvimento e o que entregar em cada uma. |
 | [docs/BLOCKS.md](docs/BLOCKS.md) | Catálogo de blocos e seu mapeamento para C. |
-| [docs/DECISIONS.md](docs/DECISIONS.md) | Decisões técnicas e questões em aberto (stack, execução de C). |
+| [docs/DECISIONS.md](docs/DECISIONS.md) | Decisões técnicas e questões em aberto (stack, execução de C, Docker). |
 | [CLAUDE.md](CLAUDE.md) | Contexto rápido para retomar o trabalho em sessões futuras. |
 
 ## Stack
@@ -36,11 +36,20 @@ Vite + React + TypeScript, com Blockly. Execução do C no navegador via WebAsse
 
 ## Como rodar
 
+### Local (Node)
+
 ```bash
 npm install      # instalar dependências
 npm run dev      # servidor de desenvolvimento (http://localhost:5173)
 npm run build    # typecheck + build de produção
 npm run preview  # servir o build localmente
+```
+
+### Docker
+
+```bash
+docker compose --profile dev up            # dev com HMR  -> http://localhost:5173
+docker compose --profile prod up --build   # produção     -> http://localhost:8088
 ```
 
 ## Licença

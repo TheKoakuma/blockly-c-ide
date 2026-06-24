@@ -13,7 +13,12 @@ Fases incrementais. Cada fase termina com algo **demonstrável**. Marque `[x]` a
 - [x] Toolbox mínima com blocos nativos do Blockly (lógica, laços, matemática, texto, variáveis)
 - [x] Persistência do workspace em `localStorage` (com debounce)
 - [x] Base de i18n (PT-BR/EN) e painel de código CodeMirror somente-leitura
-- **Entrega:** ✅ dá pra arrastar blocos e o estado sobrevive ao reload.
+- [x] **Dockerização**: Dockerfile de produção (nginx) + Dockerfile.dev + docker-compose (perfis dev/prod)
+- **Entrega:** ✅ dá pra arrastar blocos e o estado sobrevive ao reload; app roda em container.
+
+> **Requisito transversal — Dockerização:** o projeto deve ser executável via Docker em
+> qualquer fase. Mudanças futuras (ex.: backend de execução na Fase 3) precisam ser
+> refletidas no `docker-compose.yml`. Ver [DECISIONS.md → D7](DECISIONS.md#d7--dockerização).
 
 ## Fase 2 — Blocos de C + geração de código
 - [ ] Definir blocos de C do MVP (ver [BLOCKS.md](BLOCKS.md)): `main`, variável, `printf`, `if/else`, `for`, `while`, operadores

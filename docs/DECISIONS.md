@@ -64,6 +64,28 @@ Enviar o código a um serviço que roda `gcc`/`clang` em sandbox (próprio ou vi
 
 ---
 
+## D7 — Dockerização
+**Status:** ✅ aceita (2026-06-24) — **requisito transversal**
+
+**Decisão:** o projeto deve rodar em container Docker em todas as fases. Setup entregue:
+
+- **`Dockerfile`** — produção, multi-stage: build com `node:22-alpine` → serve estático com `nginx:alpine` (config SPA em `docker/nginx.conf`).
+- **`Dockerfile.dev`** — desenvolvimento, roda o dev server do Vite (`--host`) com HMR.
+- **`docker-compose.yml`** — perfis `dev` (porta 5173, bind mount do código) e `prod` (porta 8088).
+- **`.dockerignore`** — exclui `node_modules`, `dist`, `.git` etc.
+
+**Comandos:**
+```bash
+docker compose --profile dev up            # dev com HMR  -> http://localhost:5173
+docker compose --profile prod up --build   # produção     -> http://localhost:8088
+```
+
+**Manutenção:** ao introduzir novos serviços (ex.: backend/execução de C na Fase 3), adicioná-los ao `docker-compose.yml` para manter o ambiente reproduzível com um único comando.
+
+> Nota: a porta de produção é **8088** (a 8080 estava ocupada no ambiente de dev). Ajustável no compose.
+
+---
+
 ## Questões em aberto
 - Público-alvo (idade/nível) — afeta o tom das lições e a profundidade dos blocos.
 - Licença do projeto.
