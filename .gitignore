@@ -1,0 +1,35 @@
+# Dependências
+node_modules/
+.pnp/
+.pnp.js
+
+# Build / saída
+dist/
+build/
+out/
+*.local
+
+# Cache de ferramentas
+.vite/
+.cache/
+coverage/
+.eslintcache
+
+# Ambiente
+.env
+.env.*
+!.env.example
+
+# Editor / SO
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
