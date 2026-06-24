@@ -3,21 +3,20 @@ import { useTranslation } from 'react-i18next';
 import * as Blockly from 'blockly';
 import { BlocklyWorkspace } from '@/components/BlocklyWorkspace';
 import { CodePanel } from '@/components/CodePanel';
+import { cGenerator } from '@/generators/c';
 import './App.css';
 
 export default function App() {
   const { t, i18n } = useTranslation();
-  const [code, setCode] = useState(t('code.placeholder'));
+  const [code, setCode] = useState('');
 
-  // Fase 1: ainda não há gerador de C. O handler existe para a Fase 2 plugar
-  // o gerador (blocos -> C). Por ora mantém o placeholder.
-  const handleWorkspaceChange = useCallback((_workspace: Blockly.WorkspaceSvg) => {
-    // TODO Fase 2: setCode(generateC(_workspace));
+  // Gera o código C a partir do estado atual dos blocos.
+  const handleWorkspaceChange = useCallback((workspace: Blockly.WorkspaceSvg) => {
+    setCode(cGenerator.workspaceToCode(workspace));
   }, []);
 
   const toggleLanguage = () => {
     void i18n.changeLanguage(i18n.language === 'pt-BR' ? 'en' : 'pt-BR');
-    setCode(t('code.placeholder'));
   };
 
   return (

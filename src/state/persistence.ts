@@ -12,15 +12,20 @@ export function saveWorkspace(workspace: Blockly.Workspace): void {
   }
 }
 
-/** Restaura o workspace a partir do localStorage, se houver estado salvo. */
-export function loadWorkspace(workspace: Blockly.Workspace): void {
+/**
+ * Restaura o workspace a partir do localStorage.
+ * @returns `true` se havia estado salvo e foi carregado; `false` caso contrário.
+ */
+export function loadWorkspace(workspace: Blockly.Workspace): boolean {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
+    if (!raw) return false;
     const state = JSON.parse(raw) as Parameters<typeof Blockly.serialization.workspaces.load>[0];
     Blockly.serialization.workspaces.load(state, workspace);
+    return true;
   } catch {
     // Estado corrompido ou ausente — começa em branco.
+    return false;
   }
 }
 

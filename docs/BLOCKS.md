@@ -1,10 +1,14 @@
 # Catálogo de blocos → C
 
-Mapeamento entre os blocos visuais e o código C que cada um gera. Guia o trabalho da Fase 2.
+Mapeamento entre os blocos visuais e o código C que cada um gera.
 
 > Convenção: `▸` = encaixe de statement; `◅` = encaixe de valor (expressão).
 
-## MVP
+## MVP ✅ implementado
+
+Definições em `src/blocks/cBlocks.ts`; geração em `src/generators/c.ts`.
+Os rótulos dos blocos usam palavras-chave/símbolos de C (`printf`, `if`, `for`, `==`, `&&`)
+para serem neutros de idioma e já familiarizar o aluno com a sintaxe.
 
 ### Estrutura do programa
 | Bloco | Gera | Notas |

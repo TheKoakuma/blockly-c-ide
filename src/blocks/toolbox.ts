@@ -1,59 +1,67 @@
 import type * as Blockly from 'blockly';
 
 /**
- * Toolbox da Fase 1: blocos nativos do Blockly (lógica, matemática, texto,
- * variáveis, laços). Na Fase 2 isto será substituído pelos blocos de C
- * customizados — ver docs/BLOCKS.md.
+ * Toolbox da Fase 2: blocos de C customizados (ver cBlocks.ts e docs/BLOCKS.md).
+ * As cores de cada categoria acompanham a cor dos blocos correspondentes.
  */
 export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
   kind: 'categoryToolbox',
   contents: [
     {
       kind: 'category',
-      name: 'Lógica',
-      categorystyle: 'logic_category',
-      contents: [
-        { kind: 'block', type: 'controls_if' },
-        { kind: 'block', type: 'logic_compare' },
-        { kind: 'block', type: 'logic_operation' },
-        { kind: 'block', type: 'logic_negate' },
-        { kind: 'block', type: 'logic_boolean' },
-      ],
-    },
-    {
-      kind: 'category',
-      name: 'Laços',
-      categorystyle: 'loop_category',
-      contents: [
-        { kind: 'block', type: 'controls_repeat_ext' },
-        { kind: 'block', type: 'controls_whileUntil' },
-        { kind: 'block', type: 'controls_for' },
-      ],
-    },
-    {
-      kind: 'category',
-      name: 'Matemática',
-      categorystyle: 'math_category',
-      contents: [
-        { kind: 'block', type: 'math_number' },
-        { kind: 'block', type: 'math_arithmetic' },
-        { kind: 'block', type: 'math_modulo' },
-      ],
-    },
-    {
-      kind: 'category',
-      name: 'Texto',
-      categorystyle: 'text_category',
-      contents: [
-        { kind: 'block', type: 'text' },
-        { kind: 'block', type: 'text_print' },
-      ],
+      name: 'Estrutura',
+      colour: '200',
+      contents: [{ kind: 'block', type: 'c_main' }],
     },
     {
       kind: 'category',
       name: 'Variáveis',
-      categorystyle: 'variable_category',
-      custom: 'VARIABLE',
+      colour: '330',
+      contents: [
+        { kind: 'block', type: 'c_var_declare' },
+        { kind: 'block', type: 'c_var_set' },
+        { kind: 'block', type: 'c_var_get' },
+      ],
+    },
+    {
+      kind: 'category',
+      name: 'Entrada / Saída',
+      colour: '160',
+      contents: [
+        { kind: 'block', type: 'c_printf' },
+        { kind: 'block', type: 'c_scanf' },
+      ],
+    },
+    {
+      kind: 'category',
+      name: 'Controle',
+      colour: '210',
+      contents: [
+        { kind: 'block', type: 'c_if' },
+        { kind: 'block', type: 'c_for' },
+        { kind: 'block', type: 'c_while' },
+      ],
+    },
+    {
+      kind: 'category',
+      name: 'Operadores',
+      colour: '230',
+      contents: [
+        { kind: 'block', type: 'c_arithmetic' },
+        { kind: 'block', type: 'c_compare' },
+        { kind: 'block', type: 'c_logic' },
+        { kind: 'block', type: 'c_not' },
+      ],
+    },
+    {
+      kind: 'category',
+      name: 'Valores',
+      colour: '100',
+      contents: [
+        { kind: 'block', type: 'c_number' },
+        { kind: 'block', type: 'c_text' },
+        { kind: 'block', type: 'c_char' },
+      ],
     },
   ],
 };

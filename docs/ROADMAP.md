@@ -20,11 +20,13 @@ Fases incrementais. Cada fase termina com algo **demonstrável**. Marque `[x]` a
 > qualquer fase. Mudanças futuras (ex.: backend de execução na Fase 3) precisam ser
 > refletidas no `docker-compose.yml`. Ver [DECISIONS.md → D7](DECISIONS.md#d7--dockerização).
 
-## Fase 2 — Blocos de C + geração de código
-- [ ] Definir blocos de C do MVP (ver [BLOCKS.md](BLOCKS.md)): `main`, variável, `printf`, `if/else`, `for`, `while`, operadores
-- [ ] Implementar o gerador Blockly → C
-- [ ] Painel de código com realce de sintaxe mostrando o C ao vivo
-- **Entrega:** montar blocos gera C compilável visível na tela.
+## Fase 2 — Blocos de C + geração de código ✅
+- [x] Definir blocos de C do MVP (ver [BLOCKS.md](BLOCKS.md)): `main`, variável, `printf`, `scanf`, `if/else`, `for`, `while`, operadores, literais
+- [x] Implementar o gerador Blockly → C (`src/generators/c.ts`), com precedência/parênteses e inferência de formato do `printf`/`scanf`
+- [x] Painel de código com realce de sintaxe mostrando o C ao vivo
+- [x] Bloco `main` semeado por padrão; toolbox por categorias de C
+- **Entrega:** ✅ montar blocos gera C compilável visível na tela.
+  Validado em compilador real (gcc 14, `-Wall -Wextra`, sem avisos).
 
 ## Fase 3 — Execução
 - [ ] Escolher toolchain/interpretador C em WASM (ver D2)

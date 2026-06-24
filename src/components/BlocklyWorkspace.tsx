@@ -1,7 +1,11 @@
 import { useEffect, useRef } from 'react';
 import * as Blockly from 'blockly';
+import '@/blocks/cBlocks'; // registra os blocos de C antes do inject
 import { toolbox } from '@/blocks/toolbox';
 import { loadWorkspace, saveWorkspace } from '@/state/persistence';
+
+/** Estado inicial: um bloco `main` vazio, para o aluno ter por onde começar. */
+const SEED_STATE = { blocks: { blocks: [{ type: 'c_main', x: 40, y: 40 }] } };
 
 interface BlocklyWorkspaceProps {
   /** Chamado a cada mudança no workspace, com a instância pronta para gerar código. */
@@ -29,7 +33,19 @@ export function BlocklyWorkspace({ onChange }: BlocklyWorkspaceProps) {
     });
     workspaceRef.current = workspace;
 
-    loadWorkspace(workspace);
+    const hadState = loadWorkspace(workspace);
+    if (!hadState) {
+      Blockly.serialization.workspaces.load(SEED_STATE, workspace);
+    }
+    // Renderiza o código inicial logo após montar.
+    onChange?.(workspace);
+
+    // Em desenvolvimento, expõe o workspace para depuração/testes manuais.
+    // (eliminado no build de produção.)
+    if (import.meta.env.DEV) {
+      (window as unknown as { __ws?: unknown; __Blockly?: unknown }).__ws = workspace;
+      (window as unknown as { __ws?: unknown; __Blockly?: unknown }).__Blockly = Blockly;
+    }
 
     let saveTimer: number | undefined;
     const handleChange = (event: Blockly.Events.Abstract) => {

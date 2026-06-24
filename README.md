@@ -18,7 +18,7 @@ Reduzir a barreira de entrada da linguagem C. Em vez de lutar contra ponto-e-ví
 
 ## Status
 
-🚧 **Fase 1 concluída** — scaffold + workspace Blockly funcionando. Próximo: blocos de C e geração de código (Fase 2). Ver [ROADMAP](docs/ROADMAP.md).
+🚧 **Fase 2 concluída** — blocos de C + geração de código ao vivo funcionando (C gerado validado no gcc). Próximo: execução do código no navegador via WASM (Fase 3). Ver [ROADMAP](docs/ROADMAP.md).
 
 ## Documentação
 

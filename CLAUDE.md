@@ -6,12 +6,12 @@ Contexto para retomar o trabalho neste repositório em sessões futuras.
 **bloCkly** — IDE web para aprender linguagem **C** com blocos visuais (Blockly). O aluno monta blocos, o app gera C compilável ao vivo, mostra o código e o executa.
 
 ## Estado atual
-**Fase 1 concluída.** App Vite + React + TS funcionando: workspace Blockly com toolbox nativa, persistência em localStorage, i18n PT-BR/EN e painel de código CodeMirror (somente-leitura, mostrando placeholder). Próximo: **Fase 2** — blocos de C + gerador `blocos → C` (plugar em `App.handleWorkspaceChange`).
+**Fase 2 concluída.** App Vite + React + TS: workspace Blockly com blocos de C customizados, gerador `blocos → C` ao vivo no painel CodeMirror, persistência em localStorage, i18n PT-BR/EN. C gerado validado em gcc 14 (`-Wall -Wextra`, sem avisos). Próximo: **Fase 3** — execução do C no navegador via WASM (implementar `CRunner`).
 
 Comandos: `npm run dev` | `npm run build` | `npm run preview`.
 Docker (requisito transversal — D7): `docker compose --profile dev up` (5173) | `docker compose --profile prod up --build` (8088). Manter o compose atualizado ao adicionar serviços.
 
-Estrutura: `src/blocks/` (toolbox), `src/components/` (BlocklyWorkspace, CodePanel), `src/state/` (persistence), `src/i18n/` (locales), `src/App.tsx`.
+Estrutura: `src/blocks/` (cBlocks = definições dos blocos de C, toolbox), `src/generators/c.ts` (gerador Blockly→C), `src/components/` (BlocklyWorkspace, CodePanel), `src/state/` (persistence), `src/i18n/` (locales), `src/App.tsx`. Em DEV, `window.__ws`/`window.__Blockly` expõem o workspace para depuração (removido no build de produção).
 
 ## Onde olhar primeiro
 - [README.md](README.md) — visão geral e índice.
