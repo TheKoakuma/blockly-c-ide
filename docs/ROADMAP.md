@@ -5,10 +5,10 @@ Fases incrementais. Cada fase termina com algo **demonstrável**. Marque `[x]` a
 ## Fase 0 — Planejamento ✅ (atual)
 - [x] Inicializar repositório git
 - [x] Documentação de navegação (este conjunto de docs)
-- [ ] Fechar decisões críticas em [DECISIONS.md](DECISIONS.md): **stack** e **runtime de execução**
+- [x] Fechar decisões críticas em [DECISIONS.md](DECISIONS.md): **stack** (Vite + React + TS) e **runtime** (WASM no navegador)
 
 ## Fase 1 — Scaffold + Workspace Blockly
-- [ ] Scaffold do projeto (stack escolhida) e rodar `dev`
+- [ ] Scaffold com Vite + React + TypeScript e rodar `dev`
 - [ ] Integrar Blockly e renderizar um workspace vazio
 - [ ] Toolbox mínima com blocos nativos do Blockly (lógica, matemática, texto)
 - [ ] Persistência do workspace em `localStorage`
@@ -21,7 +21,8 @@ Fases incrementais. Cada fase termina com algo **demonstrável**. Marque `[x]` a
 - **Entrega:** montar blocos gera C compilável visível na tela.
 
 ## Fase 3 — Execução
-- [ ] Implementar `CRunner` conforme decisão (WASM ou backend)
+- [ ] Escolher toolchain/interpretador C em WASM (ver D2)
+- [ ] Implementar `CRunner` em WebAssembly
 - [ ] Botão **Executar** + console de saída (stdout/stderr)
 - [ ] Suporte a stdin
 - [ ] Tratamento de erros de compilação/execução na UI

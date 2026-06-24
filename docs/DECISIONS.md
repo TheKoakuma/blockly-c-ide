@@ -5,22 +5,24 @@ Registro de decisões (estilo ADR leve). Status: **proposta** | **aceita** | **r
 ---
 
 ## D1 — Stack de frontend
-**Status:** proposta
+**Status:** ✅ aceita (2026-06-24)
 
-**Proposta:** Vite + React + TypeScript.
+**Decisão:** Vite + React + TypeScript.
 
 **Razão:** Blockly tem boa integração com React; Vite dá dev server rápido e build simples; TypeScript ajuda a manter o gerador de C correto. Tudo client-side, sem necessidade de framework full-stack no MVP.
 
-**Alternativas:** Vue, Svelte, ou JS puro com Blockly. Todas viáveis — a escolha não afeta a arquitetura em camadas.
-
-> ⚠️ Confirmar antes da Fase 1 (scaffold).
+**Alternativas consideradas:** Vue, Svelte, ou JS puro com Blockly. Todas viáveis — a escolha não afeta a arquitetura em camadas.
 
 ---
 
 ## D2 — Como executar o código C
-**Status:** em aberto — **decisão mais crítica do projeto**
+**Status:** ✅ aceita (2026-06-24) — **Opção A (WASM no navegador)**
 
-O código gerado precisa rodar. Opções:
+**Decisão:** executar C no próprio navegador via WebAssembly, mantendo o projeto 100% client-side. A camada fica atrás da interface `CRunner` para permitir trocar a implementação sem reescrever a app.
+
+**A investigar na Fase 3:** qual toolchain/interpretador em WASM usar (ex.: Clang/Emscripten para compilação real, ou um interpretador leve como tcc-wasm/picoc). Avaliar tamanho de bundle vs. completude da linguagem.
+
+Opções consideradas:
 
 ### Opção A — Execução no navegador (WASM)
 Compilar/interpretar C dentro do browser.
@@ -31,10 +33,6 @@ Compilar/interpretar C dentro do browser.
 Enviar o código a um serviço que roda `gcc`/`clang` em sandbox (próprio ou via API tipo Judge0).
 - **Prós:** C real, completo e confiável; fácil de começar.
 - **Contras:** exige servidor, sandbox de segurança, custo, latência; offline não funciona.
-
-**Recomendação inicial:** começar pela **Opção A com um interpretador C leve em WASM** para manter o projeto 100% client-side e didático. Manter a interface `CRunner` (ver [ARCHITECTURE.md](ARCHITECTURE.md)) para trocar de estratégia sem reescrever a app.
-
-> ⚠️ Precisa ser decidido antes da Fase 3.
 
 ---
 

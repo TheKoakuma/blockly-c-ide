@@ -30,9 +30,13 @@ Reduzir a barreira de entrada da linguagem C. Em vez de lutar contra ponto-e-ví
 | [docs/DECISIONS.md](docs/DECISIONS.md) | Decisões técnicas e questões em aberto (stack, execução de C). |
 | [CLAUDE.md](CLAUDE.md) | Contexto rápido para retomar o trabalho em sessões futuras. |
 
+## Stack
+
+Vite + React + TypeScript, com Blockly. Execução do C no navegador via WebAssembly. Ver [DECISIONS.md](docs/DECISIONS.md).
+
 ## Como começar (após o scaffold)
 
-> Ainda não há aplicação. A stack proposta e os comandos serão preenchidos quando a Fase 1 for iniciada — ver [ROADMAP](docs/ROADMAP.md).
+> Ainda não há aplicação. Os comandos de `dev`/`build` serão preenchidos quando a Fase 1 (scaffold) for iniciada — ver [ROADMAP](docs/ROADMAP.md).
 
 ## Licença
 

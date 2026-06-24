@@ -15,10 +15,11 @@ Fase 0 (planejamento). Só git + documentação; **ainda não há código de apl
 - [docs/BLOCKS.md](docs/BLOCKS.md) — quais blocos gerar e o C de cada um.
 - [docs/DECISIONS.md](docs/DECISIONS.md) — decisões em aberto (stack, runtime de C).
 
-## Antes de codar
-Duas decisões ainda **não fechadas** (ver DECISIONS.md) e que bloqueiam o scaffold:
-1. **Stack** (proposta: Vite + React + TS).
-2. **Runtime de execução de C** (WASM no navegador vs. backend) — a mais crítica.
+## Decisões já fechadas (ver DECISIONS.md)
+1. **Stack:** Vite + React + TypeScript.
+2. **Runtime de C:** execução no navegador via WASM (atrás da interface `CRunner`). Toolchain WASM específico ainda a escolher na Fase 3.
+
+Próxima ação: **Fase 1 — scaffold** (ver ROADMAP.md).
 
 ## Princípios do projeto
 - Blocos são a fonte da verdade; o código C é **derivado** (pipeline unidirecional).
