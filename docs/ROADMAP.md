@@ -38,6 +38,15 @@ Fases incrementais. Cada fase termina com algo **demonstrável**. Marque `[x]` a
 - **Entrega:** ✅ aluno monta, gera e **roda** um programa em C.
   Validado no navegador: compila e executa de verdade (saída + stdin/scanf + exit code).
 
+## Extensão — Estruturas de dados e funções ✅
+Adicionada a pedido, além do MVP (ver [BLOCKS.md](BLOCKS.md)):
+- [x] Bloco de **função** com tipo de retorno + `return` + bloco de **chamada**
+- [x] **Vetores** (declarar/atribuir/ler)
+- [x] **Matrizes** 2D (declarar/atribuir/ler)
+- [x] **Structs** (definir/declarar/atribuir campo/ler campo)
+- [x] **Ponteiros** (declarar, `&`, `*` leitura e atribuição)
+- **Validado:** programa usando todos eles compila e roda (gcc `-Wall -Wextra` e no navegador via Wasmer → `8 / 8 / 7 / 9`).
+
 ## Fase 4 — Trilha de aprendizado
 - [ ] Modelo de lição (objetivo, blocos disponíveis, validação)
 - [ ] 3–5 lições iniciais (olá mundo → variáveis → condicionais → laços)

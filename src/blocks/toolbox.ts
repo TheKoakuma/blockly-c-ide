@@ -55,6 +55,58 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
     },
     {
       kind: 'category',
+      name: 'Funções',
+      colour: '290',
+      contents: [
+        { kind: 'block', type: 'c_function' },
+        { kind: 'block', type: 'c_return' },
+        { kind: 'block', type: 'c_call' },
+      ],
+    },
+    {
+      kind: 'category',
+      name: 'Vetores',
+      colour: '20',
+      contents: [
+        { kind: 'block', type: 'c_array_declare' },
+        { kind: 'block', type: 'c_array_set' },
+        { kind: 'block', type: 'c_array_get' },
+      ],
+    },
+    {
+      kind: 'category',
+      name: 'Matrizes',
+      colour: '40',
+      contents: [
+        { kind: 'block', type: 'c_matrix_declare' },
+        { kind: 'block', type: 'c_matrix_set' },
+        { kind: 'block', type: 'c_matrix_get' },
+      ],
+    },
+    {
+      kind: 'category',
+      name: 'Structs',
+      colour: '60',
+      contents: [
+        { kind: 'block', type: 'c_struct_define' },
+        { kind: 'block', type: 'c_struct_declare' },
+        { kind: 'block', type: 'c_struct_set' },
+        { kind: 'block', type: 'c_struct_get' },
+      ],
+    },
+    {
+      kind: 'category',
+      name: 'Ponteiros',
+      colour: '340',
+      contents: [
+        { kind: 'block', type: 'c_pointer_declare' },
+        { kind: 'block', type: 'c_address_of' },
+        { kind: 'block', type: 'c_deref_get' },
+        { kind: 'block', type: 'c_deref_set' },
+      ],
+    },
+    {
+      kind: 'category',
       name: 'Valores',
       colour: '100',
       contents: [

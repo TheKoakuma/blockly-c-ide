@@ -17,7 +17,12 @@ export default function App() {
 
   // Gera o código C a partir do estado atual dos blocos.
   const handleWorkspaceChange = useCallback((workspace: Blockly.WorkspaceSvg) => {
-    setCode(cGenerator.workspaceToCode(workspace));
+    try {
+      setCode(cGenerator.workspaceToCode(workspace));
+    } catch (err) {
+      // Não deixa um erro de geração travar o listener (e o autosave).
+      console.error('Falha ao gerar código C:', err);
+    }
   }, []);
 
   const running = status !== 'idle';

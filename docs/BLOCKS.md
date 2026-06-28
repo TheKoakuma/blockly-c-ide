@@ -43,10 +43,52 @@ para serem neutros de idioma e já familiarizar o aluno com a sintaxe.
 | **Lógico** | `a && b`, `a || b`, `!a` |
 | **Literal** | número / `'c'` / `"texto"` |
 
-## Fase posterior
-- Arrays: `int v[10];`, acesso `v[i]`
-- Funções definidas pelo usuário: `tipo nome(params) { … }` + chamada
+## Estruturas de dados e funções ✅ implementado
+
+### Funções (categoria "Funções")
+| Bloco | Gera |
+|-------|------|
+| **Função** | `tipo nome(params) { … return valor; }` — tipo de retorno por dropdown (incl. `void`); parâmetros num campo de texto (ex.: `int a, int b`); retorno omitido quando `void` |
+| **return** | `return v;` ou `return;` |
+| **Chamar** | `nome(args)` (expressão) — argumentos num campo de texto |
+
+### Vetores (categoria "Vetores")
+| Bloco | Gera |
+|-------|------|
+| **Declarar** | `int v[10];` |
+| **Atribuir** | `v[i] = x;` |
+| **Ler** | `v[i]` |
+
+### Matrizes (categoria "Matrizes")
+| Bloco | Gera |
+|-------|------|
+| **Declarar** | `int m[3][3];` |
+| **Atribuir** | `m[i][j] = x;` |
+| **Ler** | `m[i][j]` |
+
+### Structs (categoria "Structs")
+| Bloco | Gera |
+|-------|------|
+| **Definir** | `struct Nome { … };` — campos num campo de texto separados por `;` (ex.: `int x; int y;`) |
+| **Declarar** | `struct Nome p;` |
+| **Atribuir campo** | `p.x = v;` |
+| **Ler campo** | `p.x` |
+
+### Ponteiros (categoria "Ponteiros")
+| Bloco | Gera |
+|-------|------|
+| **Declarar** | `int *p = …;` (valor opcional) |
+| **Endereço de** | `&x` |
+| **Desreferenciar (ler)** | `*p` |
+| **Desreferenciar (atribuir)** | `*p = v;` |
+
+> Funções, structs e definições ficam em **blocos de topo separados** (como o `main`).
+> Coloque-os **acima do `main`** no canvas — a ordem de geração segue a posição vertical,
+> e em C o tipo/função precisa aparecer antes do uso.
+
+## Ainda não implementado
 - `do/while`, `switch`
+- Alocação dinâmica (`malloc`/`free`)
 
 ## Diretrizes de design dos blocos
 - **Tipos por dropdown**, não por blocos separados — reduz a paleta.

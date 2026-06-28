@@ -10,6 +10,8 @@ Contexto para retomar o trabalho neste repositório em sessões futuras.
 
 Detalhe do runtime: o `@wasmer/sdk` é carregado via **import dinâmico do CDN** (`SDK_URL` em `src/runner/wasmerRunner.ts`, pinado em 0.10.0), não como dependência npm — evita atrito do bundler com o worker do SDK. Execução é preguiçosa (baixa o clang só no 1º Executar).
 
+Blocos disponíveis (ver docs/BLOCKS.md): além do MVP (main, variáveis, printf/scanf, if/else, for, while, operadores, literais), há **funções** (com tipo de retorno + return + chamada), **vetores**, **matrizes**, **structs** e **ponteiros** (`&`/`*`). Structs/funções são blocos de topo (como o main) — coloque-os acima do main (ordem de geração segue a posição vertical). Nota: `field_multilinetext` NÃO está registrado nesta build do Blockly — por isso campos de struct usam `field_input` separado por `;`. Em DEV, `window.__cgen` também expõe o gerador para depuração.
+
 Comandos: `npm run dev` | `npm run build` | `npm run preview`.
 Docker (requisito transversal — D7): `docker compose --profile dev up` (5173) | `docker compose --profile prod up --build` (8088). Manter o compose atualizado ao adicionar serviços.
 

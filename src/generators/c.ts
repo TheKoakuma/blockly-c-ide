@@ -31,6 +31,13 @@ function sanitizeId(raw: string): string {
 /** Tabela nome→tipo das variáveis, montada em `init` a partir dos blocos de declaração. */
 const varTypes: Record<string, string> = {};
 
+/** Mapeia um tipo C para o especificador de formato de printf/scanf. */
+function specForType(t: string | undefined): string {
+  if (t === 'char') return '%c';
+  if (t === 'float' || t === 'double') return '%f';
+  return '%d';
+}
+
 /** Especificador de formato de printf/scanf inferido do tipo da expressão. */
 function formatSpecifier(target: Blockly.Block | null): string {
   if (!target) return '%d';
@@ -41,12 +48,13 @@ function formatSpecifier(target: Blockly.Block | null): string {
       return '%c';
     case 'c_number':
       return String(target.getFieldValue('NUM')).includes('.') ? '%f' : '%d';
-    case 'c_var_get': {
-      const t = varTypes[sanitizeId(target.getFieldValue('NAME'))];
-      if (t === 'char') return '%c';
-      if (t === 'float' || t === 'double') return '%f';
-      return '%d';
-    }
+    case 'c_var_get':
+    case 'c_array_get':
+    case 'c_matrix_get':
+    case 'c_deref_get':
+      return specForType(varTypes[sanitizeId(target.getFieldValue('NAME'))]);
+    case 'c_address_of':
+      return '%p';
     default:
       return '%d';
   }
@@ -163,11 +171,139 @@ cGenerator.forBlock['c_char'] = function (block) {
   return [`'${ch}'`, Order.ATOMIC];
 };
 
+// ---- Funções ----
+cGenerator.forBlock['c_function'] = function (block, gen: Gen) {
+  const type = block.getFieldValue('TYPE');
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const params = String(block.getFieldValue('PARAMS') || '').trim() || 'void';
+  const body = gen.statementToCode(block, 'BODY');
+  let code = `${type} ${name}(${params}) {\n${body}`;
+  if (type !== 'void') {
+    const ret = gen.valueToCode(block, 'RETURN', Order.NONE) || '0';
+    code += `${gen.INDENT}return ${ret};\n`;
+  }
+  return code + '}\n\n';
+};
+
+cGenerator.forBlock['c_return'] = function (block, gen: Gen) {
+  const value = gen.valueToCode(block, 'VALUE', Order.NONE);
+  return value ? `return ${value};\n` : 'return;\n';
+};
+
+cGenerator.forBlock['c_call'] = function (block) {
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const args = String(block.getFieldValue('ARGS') || '').trim();
+  return [`${name}(${args})`, Order.ATOMIC];
+};
+
+// ---- Vetores ----
+cGenerator.forBlock['c_array_declare'] = function (block) {
+  const type = block.getFieldValue('TYPE');
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const size = block.getFieldValue('SIZE');
+  return `${type} ${name}[${size}];\n`;
+};
+
+cGenerator.forBlock['c_array_set'] = function (block, gen: Gen) {
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const index = gen.valueToCode(block, 'INDEX', Order.NONE) || '0';
+  const value = gen.valueToCode(block, 'VALUE', Order.ASSIGNMENT) || '0';
+  return `${name}[${index}] = ${value};\n`;
+};
+
+cGenerator.forBlock['c_array_get'] = function (block, gen: Gen) {
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const index = gen.valueToCode(block, 'INDEX', Order.NONE) || '0';
+  return [`${name}[${index}]`, Order.ATOMIC];
+};
+
+// ---- Matrizes ----
+cGenerator.forBlock['c_matrix_declare'] = function (block) {
+  const type = block.getFieldValue('TYPE');
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  return `${type} ${name}[${block.getFieldValue('ROWS')}][${block.getFieldValue('COLS')}];\n`;
+};
+
+cGenerator.forBlock['c_matrix_set'] = function (block, gen: Gen) {
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const row = gen.valueToCode(block, 'ROW', Order.NONE) || '0';
+  const col = gen.valueToCode(block, 'COL', Order.NONE) || '0';
+  const value = gen.valueToCode(block, 'VALUE', Order.ASSIGNMENT) || '0';
+  return `${name}[${row}][${col}] = ${value};\n`;
+};
+
+cGenerator.forBlock['c_matrix_get'] = function (block, gen: Gen) {
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const row = gen.valueToCode(block, 'ROW', Order.NONE) || '0';
+  const col = gen.valueToCode(block, 'COL', Order.NONE) || '0';
+  return [`${name}[${row}][${col}]`, Order.ATOMIC];
+};
+
+// ---- Structs ----
+cGenerator.forBlock['c_struct_define'] = function (block, gen: Gen) {
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const fields = String(block.getFieldValue('FIELDS') || '')
+    .split(';')
+    .map((f) => f.trim())
+    .filter(Boolean)
+    .map((f) => `${gen.INDENT}${f};`)
+    .join('\n');
+  return `struct ${name} {\n${fields}${fields ? '\n' : ''}};\n\n`;
+};
+
+cGenerator.forBlock['c_struct_declare'] = function (block) {
+  const type = sanitizeId(block.getFieldValue('TYPE'));
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  return `struct ${type} ${name};\n`;
+};
+
+cGenerator.forBlock['c_struct_set'] = function (block, gen: Gen) {
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const member = sanitizeId(block.getFieldValue('MEMBER'));
+  const value = gen.valueToCode(block, 'VALUE', Order.ASSIGNMENT) || '0';
+  return `${name}.${member} = ${value};\n`;
+};
+
+cGenerator.forBlock['c_struct_get'] = function (block) {
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const member = sanitizeId(block.getFieldValue('MEMBER'));
+  return [`${name}.${member}`, Order.ATOMIC];
+};
+
+// ---- Ponteiros ----
+cGenerator.forBlock['c_pointer_declare'] = function (block, gen: Gen) {
+  const type = block.getFieldValue('TYPE');
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const value = gen.valueToCode(block, 'VALUE', Order.ASSIGNMENT);
+  return value ? `${type} *${name} = ${value};\n` : `${type} *${name};\n`;
+};
+
+cGenerator.forBlock['c_address_of'] = function (block) {
+  return [`&${sanitizeId(block.getFieldValue('NAME'))}`, Order.UNARY];
+};
+
+cGenerator.forBlock['c_deref_get'] = function (block) {
+  return [`*${sanitizeId(block.getFieldValue('NAME'))}`, Order.UNARY];
+};
+
+cGenerator.forBlock['c_deref_set'] = function (block, gen: Gen) {
+  const name = sanitizeId(block.getFieldValue('NAME'));
+  const value = gen.valueToCode(block, 'VALUE', Order.ASSIGNMENT) || '0';
+  return `*${name} = ${value};\n`;
+};
+
 // ---- Ciclo de vida do gerador ----
+const DECLARE_BLOCKS = new Set([
+  'c_var_declare',
+  'c_array_declare',
+  'c_matrix_declare',
+  'c_pointer_declare',
+]);
+
 cGenerator.init = function (workspace) {
   for (const k of Object.keys(varTypes)) delete varTypes[k];
   for (const b of workspace.getAllBlocks(false)) {
-    if (b.type === 'c_var_declare') {
+    if (DECLARE_BLOCKS.has(b.type)) {
       const n = sanitizeId(b.getFieldValue('NAME'));
       if (n) varTypes[n] = b.getFieldValue('TYPE');
     }
@@ -189,3 +325,7 @@ cGenerator.finish = function (code) {
   }
   return code;
 };
+
+if (import.meta.env.DEV) {
+  (window as unknown as { __cgen?: unknown }).__cgen = cGenerator;
+}
