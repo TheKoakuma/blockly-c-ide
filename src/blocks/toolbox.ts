@@ -107,6 +107,16 @@ export const toolbox: Blockly.utils.toolbox.ToolboxDefinition = {
     },
     {
       kind: 'category',
+      name: 'Memória',
+      colour: '0',
+      contents: [
+        { kind: 'block', type: 'c_malloc' },
+        { kind: 'block', type: 'c_calloc' },
+        { kind: 'block', type: 'c_free' },
+      ],
+    },
+    {
+      kind: 'category',
       name: 'Valores',
       colour: '100',
       contents: [

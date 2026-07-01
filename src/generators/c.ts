@@ -31,6 +31,9 @@ function sanitizeId(raw: string): string {
 /** Tabela nome→tipo das variáveis, montada em `init` a partir dos blocos de declaração. */
 const varTypes: Record<string, string> = {};
 
+/** Headers extras (além de stdio.h) exigidos pelos blocos usados; preenchido na geração. */
+const usedIncludes = new Set<string>();
+
 /** Mapeia um tipo C para o especificador de formato de printf/scanf. */
 function specForType(t: string | undefined): string {
   if (t === 'char') return '%c';
@@ -292,6 +295,26 @@ cGenerator.forBlock['c_deref_set'] = function (block, gen: Gen) {
   return `*${name} = ${value};\n`;
 };
 
+// ---- Memória dinâmica (precisa de <stdlib.h>) ----
+cGenerator.forBlock['c_malloc'] = function (block, gen: Gen) {
+  usedIncludes.add('stdlib.h');
+  const count = gen.valueToCode(block, 'COUNT', Order.MULTIPLICATIVE) || '1';
+  const type = block.getFieldValue('TYPE');
+  return [`malloc(${count} * sizeof(${type}))`, Order.ATOMIC];
+};
+
+cGenerator.forBlock['c_calloc'] = function (block, gen: Gen) {
+  usedIncludes.add('stdlib.h');
+  const count = gen.valueToCode(block, 'COUNT', Order.NONE) || '1';
+  const type = block.getFieldValue('TYPE');
+  return [`calloc(${count}, sizeof(${type}))`, Order.ATOMIC];
+};
+
+cGenerator.forBlock['c_free'] = function (block) {
+  usedIncludes.add('stdlib.h');
+  return `free(${sanitizeId(block.getFieldValue('NAME'))});\n`;
+};
+
 // ---- Ciclo de vida do gerador ----
 const DECLARE_BLOCKS = new Set([
   'c_var_declare',
@@ -301,6 +324,7 @@ const DECLARE_BLOCKS = new Set([
 ]);
 
 cGenerator.init = function (workspace) {
+  usedIncludes.clear();
   for (const k of Object.keys(varTypes)) delete varTypes[k];
   for (const b of workspace.getAllBlocks(false)) {
     if (DECLARE_BLOCKS.has(b.type)) {
@@ -311,7 +335,9 @@ cGenerator.init = function (workspace) {
 };
 
 cGenerator.finish = function (code) {
-  return `#include <stdio.h>\n\n${code}`;
+  const headers = ['stdio.h', ...usedIncludes].filter((h, i, a) => a.indexOf(h) === i);
+  const includes = headers.map((h) => `#include <${h}>`).join('\n');
+  return `${includes}\n\n${code}`;
 };
 
 // Encadeia o próximo bloco da pilha de statements.

@@ -82,13 +82,22 @@ para serem neutros de idioma e já familiarizar o aluno com a sintaxe.
 | **Desreferenciar (ler)** | `*p` |
 | **Desreferenciar (atribuir)** | `*p = v;` |
 
+### Memória dinâmica (categoria "Memória")
+| Bloco | Gera |
+|-------|------|
+| **malloc** | `malloc(n * sizeof(tipo))` (expressão; encaixe num ponteiro) |
+| **calloc** | `calloc(n, sizeof(tipo))` |
+| **free** | `free(p);` |
+
+> Estes blocos adicionam `#include <stdlib.h>` automaticamente. O gerador inclui
+> headers sob demanda (sempre `<stdio.h>`; `<stdlib.h>` quando há alocação dinâmica).
+
 > Funções, structs e definições ficam em **blocos de topo separados** (como o `main`).
 > Coloque-os **acima do `main`** no canvas — a ordem de geração segue a posição vertical,
 > e em C o tipo/função precisa aparecer antes do uso.
 
 ## Ainda não implementado
 - `do/while`, `switch`
-- Alocação dinâmica (`malloc`/`free`)
 
 ## Diretrizes de design dos blocos
 - **Tipos por dropdown**, não por blocos separados — reduz a paleta.

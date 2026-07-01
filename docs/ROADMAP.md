@@ -45,7 +45,8 @@ Adicionada a pedido, além do MVP (ver [BLOCKS.md](BLOCKS.md)):
 - [x] **Matrizes** 2D (declarar/atribuir/ler)
 - [x] **Structs** (definir/declarar/atribuir campo/ler campo)
 - [x] **Ponteiros** (declarar, `&`, `*` leitura e atribuição)
-- **Validado:** programa usando todos eles compila e roda (gcc `-Wall -Wextra` e no navegador via Wasmer → `8 / 8 / 7 / 9`).
+- [x] **Memória dinâmica** (`malloc`, `calloc`, `free`) — gerador inclui `<stdlib.h>` sob demanda
+- **Validado:** programas usando todos eles compilam e rodam — gcc `-Wall -Wextra` e no navegador via Wasmer (estruturas → `8 / 8 / 9`; malloc/calloc → `7 / 0`).
 
 ## Fase 4 — Trilha de aprendizado
 - [ ] Modelo de lição (objetivo, blocos disponíveis, validação)

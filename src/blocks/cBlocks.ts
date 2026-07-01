@@ -465,4 +465,40 @@ Blockly.defineBlocksWithJsonArray([
     colour: 340,
     tooltip: 'Atribui ao valor apontado (*p = ...).',
   },
+
+  // ---- Memória dinâmica ----
+  {
+    type: 'c_malloc',
+    message0: 'malloc ( %1 × sizeof ( %2 ) )',
+    args0: [
+      { type: 'input_value', name: 'COUNT' },
+      { type: 'field_dropdown', name: 'TYPE', options: NUMERIC_TYPES },
+    ],
+    output: null,
+    inputsInline: true,
+    colour: 0,
+    tooltip: 'Aloca memória para N elementos de um tipo (malloc). Encaixe num ponteiro.',
+  },
+  {
+    type: 'c_calloc',
+    message0: 'calloc ( %1 , sizeof ( %2 ) )',
+    args0: [
+      { type: 'input_value', name: 'COUNT' },
+      { type: 'field_dropdown', name: 'TYPE', options: NUMERIC_TYPES },
+    ],
+    output: null,
+    inputsInline: true,
+    colour: 0,
+    tooltip: 'Aloca e zera memória para N elementos de um tipo (calloc). Encaixe num ponteiro.',
+  },
+  {
+    type: 'c_free',
+    message0: 'free ( %1 )',
+    args0: [{ type: 'field_input', name: 'NAME', text: 'p' }],
+    previousStatement: null,
+    nextStatement: null,
+    inputsInline: true,
+    colour: 0,
+    tooltip: 'Libera a memória apontada por um ponteiro (free).',
+  },
 ]);
