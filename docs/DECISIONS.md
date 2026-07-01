@@ -99,6 +99,7 @@ docker compose --profile prod up --build   # produção     -> http://localhost:
 
 **Implicações técnicas:**
 - **Isolamento cross-origin obrigatório** (SharedArrayBuffer): headers `Cross-Origin-Opener-Policy: same-origin` e `Cross-Origin-Embedder-Policy: credentialless`, configurados no dev server do Vite e no nginx (produção). Sem isso a execução falha.
+- **Contexto seguro (HTTPS) obrigatório em produção:** `SharedArrayBuffer` só é habilitado em contexto seguro — **HTTPS** ou `localhost`. Servir por `http://` num domínio/IP desativa o isolamento mesmo com os headers corretos (falha aparece como erro de CORS ao Executar). Deploy real precisa de TLS — o compose tem o perfil `https` (Caddy + Let's Encrypt) para isso; ver README → Deploy. O runner detecta `!isSecureContext` e mostra mensagem explicando.
 - **Online no primeiro uso:** o pacote clang (~100 MB descomprimido) é baixado do registro Wasmer e cacheado pelo navegador. Execução é preguiçosa (só ao clicar em Executar).
 - O SDK é carregado via import dinâmico do CDN para evitar atrito do bundler com o Web Worker/wasm do SDK.
 

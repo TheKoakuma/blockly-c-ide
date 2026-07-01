@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 5173
+    },
+    {
+      "name": "prod",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "--profile", "prod", "up"],
+      "port": 8088
     }
   ]
 }

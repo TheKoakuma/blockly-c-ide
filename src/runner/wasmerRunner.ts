@@ -64,9 +64,17 @@ export const wasmerRunner: CRunner = {
     const { stdin, onStatus } = options;
 
     if (typeof crossOriginIsolated !== 'undefined' && !crossOriginIsolated) {
+      const insecure = typeof isSecureContext !== 'undefined' && !isSecureContext;
       throw new Error(
-        'Execução indisponível: a página precisa de isolamento cross-origin ' +
-          '(headers COOP/COEP). Verifique a configuração do servidor.',
+        insecure
+          ? 'Execução indisponível: a página não está em HTTPS. O compilador usa ' +
+            'SharedArrayBuffer, que o navegador só habilita em contexto seguro ' +
+            '(HTTPS ou localhost). Acessar por http://domínio-ou-IP não funciona, ' +
+            'mesmo com os headers COOP/COEP corretos. Sirva o app por HTTPS ' +
+            '(ver README → Deploy).'
+          : 'Execução indisponível: isolamento cross-origin ausente. Os headers ' +
+            'COOP/COEP não chegaram ao navegador — provavelmente um proxy reverso ' +
+            'os removeu. Configure o proxy para repassá-los (ver README → Deploy).',
       );
     }
 

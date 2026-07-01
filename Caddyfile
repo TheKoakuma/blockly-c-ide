@@ -1,0 +1,12 @@
+# Proxy reverso com HTTPS automático (Let's Encrypt) na frente do container do app.
+# O domínio vem da variável de ambiente DOMAIN (ex.: DOMAIN=meusite.com).
+#
+# Requisitos para o certificado ser emitido:
+#   - o DNS de {$DOMAIN} deve apontar para o IP deste servidor;
+#   - as portas 80 e 443 devem estar acessíveis pela internet.
+#
+# O app (nginx) já envia os headers COOP/COEP; o Caddy repassa os headers do
+# upstream por padrão, então o isolamento cross-origin chega ao navegador via HTTPS.
+{$DOMAIN} {
+	reverse_proxy app-https:80
+}

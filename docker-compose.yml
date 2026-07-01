@@ -1,7 +1,15 @@
-# Dois perfis: "dev" (Vite com HMR) e "prod" (build estático via nginx).
+# Perfis:
+#   dev   -> Vite com HMR                          http://localhost:5173
+#   prod  -> build estático via nginx (HTTP)       http://localhost:8088
+#   https -> nginx + Caddy com HTTPS automático    https://$DOMAIN  (produção real)
 # Uso:
-#   docker compose --profile dev up      -> http://localhost:5173
-#   docker compose --profile prod up --build  -> http://localhost:8088
+#   docker compose --profile dev up
+#   docker compose --profile prod up --build
+#   DOMAIN=meusite.com docker compose --profile https up --build -d
+#
+# IMPORTANTE: a execução de C usa SharedArrayBuffer, que o navegador só habilita
+# em contexto seguro (HTTPS ou localhost). Em um servidor real, use o perfil
+# "https" (ou coloque seu próprio proxy TLS na frente) — HTTP puro não funciona.
 services:
   dev:
     profiles: ["dev"]
@@ -25,3 +33,34 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8088:80"
+
+  # --- Produção com HTTPS (contexto seguro exigido pela execução de C) ---
+  # O app (nginx) fica interno; o Caddy termina TLS e faz proxy, repassando
+  # os headers COOP/COEP. Requer DNS de $DOMAIN apontando para o servidor.
+  app-https:
+    profiles: ["https"]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - "80"
+
+  caddy:
+    profiles: ["https"]
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - app-https
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - DOMAIN=${DOMAIN:?defina a variavel DOMAIN antes de subir o perfil https}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

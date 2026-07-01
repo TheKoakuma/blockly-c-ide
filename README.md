@@ -58,16 +58,39 @@ docker compose --profile prod up --build   # produção     -> http://localhost:
 
 O build (`npm run build`) gera arquivos **estáticos** em `dist/`, serviíveis por qualquer web server.
 
-> ⚠️ **Obrigatório:** o servidor precisa enviar os headers de **isolamento cross-origin**, senão a
-> execução de C (que usa `SharedArrayBuffer`) não funciona:
-> ```
-> Cross-Origin-Opener-Policy: same-origin
-> Cross-Origin-Embedder-Policy: credentialless
-> ```
-> A imagem Docker de produção (nginx) já os envia — ver [docker/nginx.conf](docker/nginx.conf).
-> Em outro servidor, configure os mesmos headers e um fallback de SPA para `index.html`.
+### ⚠️ HTTPS é obrigatório em produção
 
-Não há variáveis de ambiente nem segredos a configurar (ver [.env.example](.env.example)).
+A execução de C usa **`SharedArrayBuffer`**, que o navegador só habilita em **contexto seguro**:
+**HTTPS** ou `localhost`. Acessar por `http://` num domínio ou IP **não funciona** — o navegador
+desativa o isolamento cross-origin e a execução falha (erro parecido com CORS ao clicar em
+Executar), **mesmo com os headers COOP/COEP corretos**. Não há como contornar isso em código.
+
+Além do HTTPS, o servidor precisa enviar os headers de isolamento cross-origin:
+```
+Cross-Origin-Opener-Policy: same-origin
+Cross-Origin-Embedder-Policy: credentialless
+```
+A imagem de produção (nginx) já os envia — ver [docker/nginx.conf](docker/nginx.conf). Se você usar
+um **proxy reverso** na frente, garanta que ele **repasse** esses headers (não os remova) e um
+fallback de SPA para `index.html`.
+
+### Opção turnkey: HTTPS automático (Caddy + Let's Encrypt)
+
+O perfil `https` do compose sobe o app (nginx interno) atrás de um [Caddy](https://caddyserver.com/)
+que emite e renova o certificado TLS sozinho. Requer que o **DNS do domínio aponte para o servidor**
+e que as **portas 80 e 443** estejam abertas.
+
+```bash
+DOMAIN=meusite.com docker compose --profile https up --build -d
+# app disponível em https://meusite.com
+```
+
+### Alternativa: seu próprio proxy TLS
+
+Se já administra nginx/Apache/Traefik com TLS, faça proxy para o container `prod` (porta 8088) e
+**preserve os headers COOP/COEP** (ou os defina no próprio proxy).
+
+Não há variáveis de ambiente nem segredos a configurar no app (ver [.env.example](.env.example)).
 
 ## Licença
 
