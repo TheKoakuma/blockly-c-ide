@@ -18,7 +18,7 @@ Reduzir a barreira de entrada da linguagem C. Em vez de lutar contra ponto-e-ví
 
 ## Status
 
-🚧 **Fase 3 concluída** — execução de C no navegador funcionando: o aluno monta blocos, gera C e **roda** (compilador clang real em WASM via `@wasmer/sdk`), com saída, stdin e código de saída. Próximo: trilha de aprendizado (Fase 4). Ver [ROADMAP](docs/ROADMAP.md).
+🚧 **Fases 1–3 concluídas + extensões.** O aluno monta blocos, vê o C gerado ao vivo e **executa** no navegador (compilador clang real em WASM via `@wasmer/sdk`), com saída, stdin e código de saída. Além do MVP há blocos de **funções** (com retorno), **vetores, matrizes, structs, ponteiros** e **memória dinâmica** (malloc/calloc/free). Próximo: trilha de aprendizado (Fase 4). Ver [ROADMAP](docs/ROADMAP.md).
 
 > ⚠️ A execução exige **isolamento cross-origin** (headers COOP/COEP, já configurados) e baixa o compilador clang (~100 MB) do registro Wasmer no primeiro uso. Ver [D8](docs/DECISIONS.md).
 
@@ -53,6 +53,21 @@ npm run preview  # servir o build localmente
 docker compose --profile dev up            # dev com HMR  -> http://localhost:5173
 docker compose --profile prod up --build   # produção     -> http://localhost:8088
 ```
+
+## Deploy
+
+O build (`npm run build`) gera arquivos **estáticos** em `dist/`, serviíveis por qualquer web server.
+
+> ⚠️ **Obrigatório:** o servidor precisa enviar os headers de **isolamento cross-origin**, senão a
+> execução de C (que usa `SharedArrayBuffer`) não funciona:
+> ```
+> Cross-Origin-Opener-Policy: same-origin
+> Cross-Origin-Embedder-Policy: credentialless
+> ```
+> A imagem Docker de produção (nginx) já os envia — ver [docker/nginx.conf](docker/nginx.conf).
+> Em outro servidor, configure os mesmos headers e um fallback de SPA para `index.html`.
+
+Não há variáveis de ambiente nem segredos a configurar (ver [.env.example](.env.example)).
 
 ## Licença
 
